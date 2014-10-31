@@ -18,7 +18,8 @@ class Textos_Rolagem {
                 "Temperate",
                 "Cold winters, but warm summers."),
             100 => array(
-                "Warm (tropical and subtropical)", "Conditions are warm year-round.")
+                "Warm (tropical and subtropical)",
+                "Conditions are warm year-round.")
         );
 
         $this->array_data['pergunta_2'][TITULO] = "Home Community, Human";
