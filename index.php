@@ -34,7 +34,7 @@ include 'textos.php';
                     </tr>
                 </thead>
 
-
+                <?php echo rolagem_de_itens_to_html_table(); ?>
 
             </table>
         </div>
@@ -42,29 +42,42 @@ include 'textos.php';
 
 <?php
 
-$textos_rolagem = new Textos_Rolagem();
-var_dump( $textos_rolagem->getIndexValue(['pergunta_1', OPCOES]));
 
-rolagem_de_itens_to_html_table();
-$variabilus = ${"array_respostas_".$i};
-var_dump( $variabilus);
+
+
 
 function rolagem_de_itens_to_html_table(){
-    for($i = 1; $i<=2;$i++){
-        $variabilus = ${"array_respostas_".$i};
+    $textos_rolagem = new Textos_Rolagem();
 
-        $resultado = sortear_valor_array_range(${"array_respostas_".$i});
+    $texto_tabela = "";
+
+    for($i = 1; $i<=2;$i++){
+        $random_roll = rand(1,100);
+
+        $texto_tabela = $texto_tabela . "<tr>";
+
+        $titulo = $textos_rolagem->getIndexValue(['pergunta_'.$i, TITULO]);
+        $descricao = $textos_rolagem->getIndexValue(['pergunta_'.$i, DESCRICAO]);
+        $opcoes = $textos_rolagem->getIndexValue(['pergunta_'.$i, OPCOES]);
+
+        $resultado = sortear_valor_array_range($opcoes, $random_roll);
+        $texto_tabela = $texto_tabela . "<td>$random_roll</td><td>$titulo</td><td>$resultado[0]</td><td>$resultado[1]</td>";
+        $texto_tabela = $texto_tabela . "</tr>";
+
     }
+
+
+    return $texto_tabela;
 }
 
 
 /**
  * @param $array_opcoes recebe um array aonde as chaves são um numero, o valor maximo da na rolagem do d100 e um array com os textos desta rolagem
  *               o primeiro valor do array eh o titulo e o segundo a descrição.
+ * @param $random_roll uma rolagem de d100
  * @return mixed
  */
-function sortear_valor_array_range($array_opcoes){
-    $random_roll = rand(1,100);
+function sortear_valor_array_range($array_opcoes, $random_roll){
     foreach($array_opcoes as $numero_max => $array_texto){
         if($random_roll <= $numero_max){
             return $array_texto;
